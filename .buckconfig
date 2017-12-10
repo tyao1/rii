@@ -1,0 +1,3 @@
+[cxx]
+  cxxflags = -framework IOKit
+  ldflags = -framework IOKit
