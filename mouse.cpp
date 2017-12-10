@@ -71,7 +71,7 @@ VirtualMouse::~VirtualMouse() {
   IOConnectCallScalarMethod(
     connect_, FOOHID_DESTROY, data, 2, NULL, 0
   );
-  IOObjectRelease(connect_);
+  IOServiceClose(connect_);
 }
 
 kern_return_t VirtualMouse::move_mouse(int8_t x, int8_t y) {
