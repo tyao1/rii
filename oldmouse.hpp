@@ -1,11 +1,12 @@
-#include <device.hpp>
+/*
+  Define descriptors, datastructures and constant
+*/
 
-struct mouse_report {
-   uint8_t buttons;
-   int8_t x;
-   int8_t y;
-};
+#include <IOKit/IOKitLib.h>
 
+/*
+  Reporter for a mouse
+*/
 unsigned char report_descriptor[] = {
    0x05, 0x01,                    // USAGE_PAGE (Generic Desktop)
    0x09, 0x02,                    // USAGE (Mouse)
@@ -35,57 +36,36 @@ unsigned char report_descriptor[] = {
    0xc0                           // END_COLLECTION
 };
 
-class Mouse: Device<mouse_report, report_descriptor, sizeof(report_descriptor)> {
+struct mouse_report {
+   uint8_t buttons;
+   int8_t x;
+   int8_t y;
+};
+
+#define SERVICE_NAME "it_unbit_foohid"
+
+#define FOOHID_CREATE 0  // create selector
+#define FOOHID_DESTROY 1  // destroy selector
+#define FOOHID_SEND 2  // send selector
+
+#define DEVICE_NAME "Foohid Virtual Mouse"
+#define DEVICE_SN "SN 123456"
+
+class VirtualMouse {
 public:
-  Mouse(const char* device_name, const char* device_sn):Device(
-    device_name, device_sn) {
-  }
-
-  kern_return_t move_mouse(int8_t x, int8_t y) {
-    std::cout << (int)x << '\n' << (int)y << '\n';
-    report_.x = x;
-    report_.y = y;
-    kern_return_t res = send();
-    report_.x = 0;
-    report_.y = 0;
-    return res;
-  }
-
-
-  kern_return_t middle_down() {
-    report_.buttons |= 1 << 2;
-    return send();
-  }
-
-  kern_return_t middle_up() {
-    report_.buttons &= ~(1 << 2);
-    return send();
-
-  }
-
-  kern_return_t right_down() {
-    report_.buttons |= 1 << 1;
-    return send();
-  }
-
-  kern_return_t right_up() {
-    report_.buttons &= ~(1 << 1);
-    return send();
-  }
-  kern_return_t left_down() {
-    report_.buttons |= 1;
-    return send();
-  }
-
-  kern_return_t left_up() {
-    report_.buttons &= ~1;
-    return send();
-  }
-
-  int8_t getX() {
-    return report_.x;
-  }
-  int8_t getY() {
-    return report_.y;
-  }
+  VirtualMouse();
+  ~VirtualMouse();
+  kern_return_t move_mouse(int8_t x, int8_t y);
+  kern_return_t left_down();
+  kern_return_t left_up();
+  kern_return_t middle_down();
+  kern_return_t middle_up();
+  kern_return_t right_down();
+  kern_return_t right_up();
+  int8_t getX();
+  int8_t getY();
+private:
+  io_connect_t connect_;
+  mouse_report report_;
+  uint64_t send_[4];
 };

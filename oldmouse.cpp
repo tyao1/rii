@@ -5,7 +5,7 @@
 #include <IOKit/IOKitLib.h>
 #include <iostream>
 #include <memory>
-#include <mouse.hpp>
+#include <oldmouse.hpp>
 
 VirtualMouse::VirtualMouse() {
   std::cout << "Initializing the connection to the driver...\n";
@@ -44,6 +44,8 @@ VirtualMouse::VirtualMouse() {
   input[1] = strlen((char *)input[0]);  // name length
   input[2] = (uint64_t) report_descriptor;  // report descriptor
   input[3] = sizeof(report_descriptor);  // report descriptor len
+  std::cout<<input[3]<<std::endl;
+
   input[4] = (uint64_t) strdup(DEVICE_SN);  // serial number
   input[5] = strlen((char *)input[4]);  // serial number len
   input[6] = (uint64_t) 2;  // vendor ID
