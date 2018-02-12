@@ -10,9 +10,6 @@
 #define FOOHID_DESTROY 1  // destroy selector
 #define FOOHID_SEND 2  // send selector
 
-#define DEVICE_NAME "Foohid Virtual Mouse"
-#define DEVICE_SN "SN 123456"
-
 template<typename S, unsigned char* report_descriptor, uint64_t report_size>
 class Device {
 public:
@@ -47,7 +44,7 @@ public:
     if (!found) {
       throw "Unable to access IOService";
     }
-
+    printf("Creating %s ...\n", device_name);
     // Create the device
     uint32_t input_count = 8;
     uint64_t input[input_count];
@@ -89,7 +86,11 @@ public:
       connect_, FOOHID_SEND, send_, 4, NULL, 0
     );
     return res;
-  };
+  }
+
+  void set_state(const S new_state) {
+    report_ = new_state;
+  }
 
 private:
   io_connect_t connect_;

@@ -1,4 +1,7 @@
+#ifndef DEVICE_H
+#define DEVICE_H
 #include <device.hpp>
+#endif
 
 struct mouse_report {
    uint8_t buttons;

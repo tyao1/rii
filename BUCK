@@ -1,10 +1,11 @@
 cxx_binary(
-    name = 'oldmouse',
+    name = 'mouse',
     srcs = [
-        'oldmouse.cpp',
+        'examples/mouse.cpp',
     ],
     headers = [
-        'oldmouse.hpp',
+        'mouse.hpp',
+        'device.hpp',
     ],
     linker_flags = [
     ],
@@ -15,13 +16,13 @@ cxx_binary(
 
 
 cxx_binary(
-    name = 'device',
+    name = 'gamepad',
     srcs = [
-        'device.cpp',
+        'examples/gamepad.cpp',
     ],
     headers = [
         'device.hpp',
-        'mouse.hpp',
+        'gamepad.hpp',
     ],
     linker_flags = [
     ],
