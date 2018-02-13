@@ -79,6 +79,7 @@ public:
       connect_, FOOHID_DESTROY, data, 2, NULL, 0
     );
     IOServiceClose(connect_);
+    std::cout << "Bye\n";
   }
 
   kern_return_t send() {
@@ -90,6 +91,10 @@ public:
 
   void set_state(const S new_state) {
     report_ = new_state;
+  }
+  kern_return_t send_state(const S new_state) {
+    report_ = new_state;
+    return send();
   }
 
 private:

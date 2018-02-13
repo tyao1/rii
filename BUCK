@@ -30,3 +30,24 @@ cxx_binary(
         '-std=c++11',
     ],
 )
+
+cxx_binary(
+  name = 'asio',
+  srcs = ['server.cpp'],
+  headers = [
+    'device.hpp',
+    'gamepad.hpp',
+  ],
+  deps = [],
+  visibility = ['PUBLIC'],
+  linker_flags = [
+    '-lpthread',
+    '-lboost_thread-mt',
+    '-lboost_system',
+  ],
+  compiler_flags = [
+    '-std=c++11',
+    #'-lboost_thread-mt',
+
+  ]
+)
