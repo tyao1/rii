@@ -32,7 +32,7 @@ cxx_binary(
 )
 
 cxx_binary(
-  name = 'asio',
+  name = 'server',
   srcs = ['server.cpp'],
   headers = [
     'device.hpp',
@@ -47,7 +47,5 @@ cxx_binary(
   ],
   compiler_flags = [
     '-std=c++11',
-    #'-lboost_thread-mt',
-
   ]
 )
