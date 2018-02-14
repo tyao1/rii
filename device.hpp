@@ -16,7 +16,6 @@ public:
   Device(
     const char* device_name, const char* device_sn
   ) {
-    std::cout << "Initializing the connection to the driver...\n";
     io_iterator_t iterator;
     io_service_t service;
 
@@ -71,7 +70,6 @@ public:
   }
 
   ~Device() {
-    std::cout << "Destroying Device...\n";
     uint64_t data[2];
     data[0] = send_[0];
     data[1] = strlen((char *)send_[0]);
@@ -79,7 +77,6 @@ public:
       connect_, FOOHID_DESTROY, data, 2, NULL, 0
     );
     IOServiceClose(connect_);
-    std::cout << "Bye\n";
   }
 
   kern_return_t send() {

@@ -4,14 +4,16 @@
 #endif
 
 struct gamepad_report {
-    int8_t left_x;
-    int8_t left_y;
-    int8_t right_x;
-    int8_t right_y;
+    int16_t x;
+    int16_t y;
+    int16_t rx;
+    int16_t ry;
+    uint8_t z;
+    uint8_t rz;
     uint16_t buttons;
     void print() {
       printf("Buttons: %d, X1: %d, Y1: %d, X2: %d, Y2: %d\n",
-        buttons, left_x, left_y, right_x, right_y);
+        buttons, x, y, rx, ry);
     }
 };
 
@@ -25,12 +27,20 @@ unsigned char gamepad_report_descriptor[] = {
     0x05, 0x01,                    //     USAGE_PAGE (Generic Desktop)
     0x09, 0x30,                    //     USAGE (X)
     0x09, 0x31,                    //     USAGE (Y)
-    0x09, 0x32,                    //     USAGE (Z)
     0x09, 0x33,                    //     USAGE (Rx)
-    0x15, 0x81,                    //     LOGICAL_MINIMUM (-127)
-    0x25, 0x7f,                    //     LOGICAL_MAXIMUM (127)
-    0x75, 0x08,                    //     REPORT_SIZE (8)
+    0x09, 0x34,                    //     USAGE (Ry)
+    0x16, 0x00, 0x80,              //     LOGICAL_MINIMUM (-32768)
+    0x26, 0xff, 0x7f,              //     LOGICAL_MAXIMUM (32767)
+    0x75, 0x10,                    //     REPORT_SIZE (16)
     0x95, 0x04,                    //     REPORT_COUNT (4)
+    0x81, 0x02,                    //     INPUT (Data,Var,Abs)
+    0x05, 0x01,                    //     USAGE_PAGE (Generic Desktop)
+    0x09, 0x32,                    //     USAGE (Z)
+    0x09, 0x35,                    //     USAGE (Rz)
+    0x15, 0x00,                    //     LOGICAL_MINIMUM (0)
+    0x46, 0xff, 0x00,              //     PHYSICAL_MAXIMUM (255)
+    0x75, 0x08,                    //     REPORT_SIZE (8)
+    0x95, 0x02,                    //     REPORT_COUNT (2)
     0x81, 0x02,                    //     INPUT (Data,Var,Abs)
     0x05, 0x09,                    //     USAGE_PAGE (Button)
     0x19, 0x01,                    //     USAGE_MINIMUM (Button 1)
